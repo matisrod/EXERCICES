@@ -1,7 +1,7 @@
 // ============================================================================
 // TP JAVASCRIPT - RAPPELS POUR REACT
 // ============================================================================
-
+import Car from './Car.js';
 console.log("=== TP JAVASCRIPT - EXERCICES 1 À 8 ===\n");
 
 // ============================================================================
@@ -12,7 +12,12 @@ console.log("=== TP JAVASCRIPT - EXERCICES 1 À 8 ===\n");
 // Pour cela vous pourrez utiliser la méthode readFileSync du module fs de Node,
 // et l'objet JSON natifs à Javascript : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/JSON
 
-console.log("=== 1. Lecture et manipulation de fichiers JSON ===");
+import fs from 'fs';
+
+const data = fs.readFileSync('voitures.json', 'utf8');
+const obj = JSON.parse(data);
+
+console.log(obj);
 
 
 
@@ -32,6 +37,8 @@ console.log("=== 1. Lecture et manipulation de fichiers JSON ===");
 
 console.log("\n=== 2. Création et import de classe ===");
 
+const myCar = new Car(1, "Tesla Model 3", "Elon", "Musk", 52, 250);
+myCar.printEssentialCarInfos()
 
 // ============================================================================
 // 3. TRANSFORMATION DE DONNÉES
