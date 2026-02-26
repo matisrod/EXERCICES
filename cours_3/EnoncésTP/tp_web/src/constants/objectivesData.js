@@ -1,4 +1,4 @@
-export const OBJECTIVES_DATA = [
+export const objectives = [
   {
     id: "sedentaire",
     label: "Sédentaire",

@@ -1,40 +1,36 @@
-import { OBJECTIVES_DATA } from '../constants/objectivesData';
-import { generateWeightSteps, calculateProteinRange } from '../utils/calculations';
+import { objectives } from '../constants/objectivesData';
+import { generateWeightSteps, getProteinRange } from '../utils/calculations';
 
 function ProteinTable({ selectedObjectives, minWeight, maxWeight, rowCount }) {
-  // 1. On génère les lignes de poids dynamiquement
   const weights = generateWeightSteps(minWeight, maxWeight, rowCount);
+  
+  // On filtre le tableau de base pour ne garder que les objectifs cochés par l'utilisateur
+  const activeObjectives = objectives.filter(obj => selectedObjectives.includes(obj.id));
 
-  // 2. On filtre nos données de référence pour ne garder que les objectifs cochés
-  const activeObjectives = OBJECTIVES_DATA.filter((obj) =>
-    selectedObjectives.includes(obj.id)
-  );
+  if (activeObjectives.length === 0) return null;
 
   return (
     <div className="table-container">
-      <h2>📊 Vos besoins en protéines</h2>
+      <h2>Besoins en protéines</h2>
       <table>
         <thead>
           <tr>
-            {/* La première colonne fixe obligatoire */}
             <th>Poids (kg)</th>
-            
-            {/* Génération dynamique des colonnes selon les objectifs cochés */}
-            {activeObjectives.map((obj) => (
+            {activeObjectives.map(obj => (
               <th key={obj.id}>{obj.label}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {/* On boucle sur chaque poids calculé pour créer une ligne */}
-          {weights.map((weight, index) => (
-            <tr key={index}>
-              <td>{weight} kg</td>
+          {/* 1ère boucle : on crée une ligne (tr) pour chaque palier de poids */}
+          {weights.map(weight => (
+            <tr key={weight}>
+              <td>{weight}</td>
               
-              {/* Pour chaque poids, on calcule la valeur pour chaque objectif actif */}
-              {activeObjectives.map((obj) => (
+              {/* 2ème boucle : dans cette ligne, on crée une cellule (td) par objectif actif */}
+              {activeObjectives.map(obj => (
                 <td key={obj.id}>
-                  {calculateProteinRange(weight, obj.minMultiplier, obj.maxMultiplier)}
+                  {getProteinRange(weight, obj.minMultiplier, obj.maxMultiplier)}
                 </td>
               ))}
             </tr>

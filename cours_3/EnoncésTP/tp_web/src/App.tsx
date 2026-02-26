@@ -9,16 +9,14 @@ function App() {
   const [maxWeight, setMaxWeight] = useState(100);
   const [rowCount, setRowCount] = useState(6);
 
-  const isValid = minWeight > 0 
-               && maxWeight > minWeight 
-               && rowCount > 1 
-               && selectedObjectives.length > 0;
+  // constantes booleennes pour savoir si on peut afficher le tableau ou pas
+  const isValid = minWeight > 0 && maxWeight > minWeight && rowCount > 2 && rowCount < 500; // on met un nombre de ligne max et min
+  const hasObjectives = selectedObjectives.length > 0;
 
   return (
     <div className="app-container">
       <header>
         <h1>Besoins en Protéines</h1>
-        <p>Générez dynamiquement votre tableau personnalisé.</p>
       </header>
       
       <main>
@@ -33,7 +31,7 @@ function App() {
           setRowCount={setRowCount}
         />
 
-        {isValid ? (
+        {isValid && hasObjectives ? (
           <ProteinTable 
             selectedObjectives={selectedObjectives}
             minWeight={minWeight}
@@ -42,7 +40,7 @@ function App() {
           />
         ) : (
           <div className="alert-message">
-            <p>⚠️ Veuillez sélectionner au moins un objectif et vous assurer que le poids maximum est supérieur au poids minimum.</p>
+            <p>Sélectionnez au moins un objectif et vérifiez vos poids min/max pour afficher le tableau.</p>
           </div>
         )}
       </main>

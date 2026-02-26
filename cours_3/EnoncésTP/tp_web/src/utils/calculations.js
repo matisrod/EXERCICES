@@ -1,28 +1,13 @@
-/**
- * Génère un tableau contenant les paliers de poids entre le minimum et le maximum.
- */
-export const generateWeightSteps = (minWeight, maxWeight, rowCount) => {
-  if (rowCount <= 1) return [minWeight];
-
-  const steps = [];
-  // Calcul de l'écart (le "pas") entre chaque ligne
-  const stepValue = (maxWeight - minWeight) / (rowCount - 1);
-
-  for (let i = 0; i < rowCount; i++) {
-    // On arrondit à 1 décimale pour un affichage plus propre
-    const currentWeight = minWeight + (stepValue * i);
-    steps.push(Math.round(currentWeight * 10) / 10);
-  }
-
-  return steps;
+export const generateWeightSteps = (min, max, count) => {
+  if (count <= 1) return [min];
+  const step = (max - min) / (count - 1);
+  
+  // Crée un tableau vide de taille 'count' et le remplit en calculant le poids de chaque ligne (avec un arrondi à 1 décimale)
+  return Array.from({ length: count }, (_, i) => 
+    Math.round((min + step * i) * 10) / 10
+  );
 };
 
-/**
- * Calcule la plage de protéines en grammes par jour pour un poids et un objectif donnés.
- */
-export const calculateProteinRange = (weight, minMultiplier, maxMultiplier) => {
-  const minProtein = Math.round(weight * minMultiplier);
-  const maxProtein = Math.round(weight * maxMultiplier);
-  
-  return `${minProtein} – ${maxProtein} g/jour`;
+export const getProteinRange = (weight, minMult, maxMult) => {
+  return `${Math.round(weight * minMult)} - ${Math.round(weight * maxMult)}g`;
 };
